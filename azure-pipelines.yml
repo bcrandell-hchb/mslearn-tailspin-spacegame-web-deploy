@@ -74,7 +74,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     environment: bcrandell-mslearn-dev
     variables:
-    - group: Release
+    - group: bcrandell-mslearn-release
     strategy:
       runOnce:
         deploy:
