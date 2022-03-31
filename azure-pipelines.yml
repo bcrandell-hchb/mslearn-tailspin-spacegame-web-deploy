@@ -78,12 +78,12 @@ stages:
 - stage: 'Dev'
   displayName: 'Deploy the dev application'
   dependsOn: Build
-  condition: |
-    and
-    (
-      succeeded(),
-      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
-    )
+  # condition: |
+  #   and
+  #   (
+  #     succeeded(),
+  #     eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+  #   )
   jobs:
   - deployment: Deploy
     pool:
