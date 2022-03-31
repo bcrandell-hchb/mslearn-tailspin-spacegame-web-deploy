@@ -7,9 +7,9 @@ variables:
 stages:
 - stage: 'Build'
   displayName: 'Build the web application'
-  jobs: 
+  jobs:
   - job: 'Build'
-    displayName: 'Build job'
+    displayName: 'Build Job'
     pool:
       vmImage: 'ubuntu-20.04'
       demands:
@@ -17,7 +17,7 @@ stages:
 
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-      dotnetSdkVersion: '5.x'
+      dotnetSdkVersion: '5.x' 
 
     steps:
     - task: UseDotNet@2
@@ -72,9 +72,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
+    environment: bcrandell-mslearn-dev
     variables:
-    - group: Release
+    - group: bcrandell-mslearn-release
     strategy:
       runOnce:
         deploy:
@@ -84,6 +84,6 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              azureSubscription: 'Resource Manager - BCrandell - MSLearn'
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
