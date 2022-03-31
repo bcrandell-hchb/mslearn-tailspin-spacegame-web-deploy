@@ -103,7 +103,7 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 - stage: 'Test'
   displayName: 'Deploy to the TEST environment'
-  dependsOn: dev
+  dependsOn: Dev
   #condition: eq(variables['Build.Reason', 'Schedule'])
   jobs:
   - deployment: Deploy
@@ -123,4 +123,26 @@ stages:
               inputs:
                 azureSubscription: 'Resource Manager - BCrandell - MSLearn'
                 appName: '$(WebAppNameTest)'
+                package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+- stage: 'Staging'
+  displayName: 'Deploy to the staging environment'
+  dependsOn: Test
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-20.04'
+    environment: bcrandell-mslearn-staging
+    variables: 
+    - group: 'bcrandell-mslearn-release'
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+            - download: current
+              artifact: drop
+            - task: AzureWebApp@1
+              displayName: 'Azure App Service Deploy: website'
+              inputs:
+                azureSubscription: 'Resource Manager - BCrandell - MSLearn'
+                appName: '$(WebAppNameStaging)'
                 package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
