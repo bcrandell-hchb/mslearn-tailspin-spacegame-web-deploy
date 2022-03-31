@@ -122,5 +122,5 @@ stages:
               displayName: 'Azure App Service Deploy: website'
               inputs:
                 azureSubscription: 'Resource Manager - BCrandell - MSLearn'
-                appType: '$(WebAppNameTest)'
+                appName: '$(WebAppNameTest)'
                 package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
